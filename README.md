@@ -1,5 +1,9 @@
 # Ulam Labs
 
+## Live demo
+
+https://ulam-labs-julia-nowicka.herokuapp.com/
+
 ##  Scripts
 
 In the project directory, you can run:
