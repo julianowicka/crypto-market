@@ -1,46 +1,41 @@
-# Getting Started with Create React App
+# Ulam Labs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+##  Scripts
 
 In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Task
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Build a single-page application that shows the price of user-selected cryptocurrencies.
 
-### `npm test`
+- Users can select up to 5 currencies.
+- Users can remove the currencies.
+- Show 24h price chart along with the current price.
+- Show all selected currencies in one view.
+- The selected currencies should be persistent. Refreshing the page should not reset
+  them.
+- Each of the selected currencies should be displayed with a distinct color.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+The UX is up to you. It's one of the things that will be evaluated.
+The currencies list and prices can be retrieved using
+https://www.coingecko.com/en/api/documentation
+Feel free to use any other API.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deliverables
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Create Github/Gitlab repo with source code and documentation. You are free to choose any
+modern framework. Please also host SPA in your preferred place.
+Scoring
+What is important in this task? And where do we give points?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. if it works and covers all corner cases
+2. code and mind clarity, the clearer the code, the clearer the thinking. Make sure your
+   code can be read like a breeze.
+3. extensive testing and E2E testing are welcomed
+4. UX and aesthetics of the solution
+5. responsiveness
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
