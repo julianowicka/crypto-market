@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 import { QueryKeys } from "../../util/api/QueryKeys";
 import { CoinModel, fetchCryptoList } from "../../util/api/fetchCryptoList";
 import { TextField, Typography } from "@mui/material";
+import CoinTable from "./component/CoinTable";
+import { filterCoins } from "./util/filterCoins";
 
 
 export const CryptoCoinsListEntry: React.FC = () => {
@@ -13,14 +15,9 @@ export const CryptoCoinsListEntry: React.FC = () => {
 
 
     const handleSearchCoins: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
-        const searchValue = event.target.value.toLowerCase()
-
-        const matchingCoins = allCoins?.filter((coin) => {
-            const coinName = coin.name.toLowerCase()
-            const coinSymbol = coin.symbol.toLowerCase()
-            return coinName.includes(searchValue) || coinSymbol.includes(searchValue)
-        }) ?? []
-        setFilteredCoins(matchingCoins.slice(0, 15))
+        const searchString = event.target.value.toLowerCase()
+        const newFilteredCoins = filterCoins(allCoins ?? [], searchString)
+        setFilteredCoins(newFilteredCoins)
     }
 
 
@@ -42,6 +39,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
             <ul>
                 { filteredCoins.map((coin) => (<li>{ coin.name }</li>)) }
             </ul>
+            <CoinTable />
         </>
     )
 }
