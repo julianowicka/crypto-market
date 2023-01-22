@@ -1,4 +1,4 @@
-import { Line, LineChart } from "recharts";
+import { Line, LineChart, YAxis } from "recharts";
 import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
 import React from "react";
 
@@ -27,7 +27,9 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
                 height={ 100 }
                 data={ marketChart24hPrice }
             >
+                <YAxis domain={[coin.low_24h, coin.high_24h]} hide />
                 <Line
+                    type="monotone"
                     dataKey="price"
                     stroke="#8884d8"
                     strokeWidth={ 2 }
