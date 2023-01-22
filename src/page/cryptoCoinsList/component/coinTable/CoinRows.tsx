@@ -13,7 +13,7 @@ export const CoinRows: React.FC<Props> = (props) => {
 
     const { coins } = props;
 
-    const coinIds = coins.map((coin) => coin.id).join(",")
+    const coinIds = coins.map((coin) => coin.id).sort().join(",")
     const { data: coinDetailsList } = useQuery([ QueryKeys.GET_CRYPTO_DETAILS, coinIds ], () => fetchCoinDetails(coins))
 
     return (

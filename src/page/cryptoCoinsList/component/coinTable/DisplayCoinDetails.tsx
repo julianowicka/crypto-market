@@ -1,8 +1,10 @@
 import React from "react";
 import { CoinModel } from "../../../../util/api/fetchCryptoList";
 import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
-import { TableCell, TableRow } from "@mui/material";
+import { Checkbox, TableCell, TableRow } from "@mui/material";
 import { EmptyTableRow } from "../../../../component/EmptyTableRow";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { useFavoriteCoinsStore } from "../../../../util/store/useFavoriteCoinsStore";
 
 interface Props {
     coinBasic: CoinModel,
@@ -14,8 +16,18 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
 
     const coinDetails = coinDetailsList?.find((coin) => coinBasic.id === coin.id)
 
+    const { removeFavoriteCoin, addFavoriteCoin, isFavoriteCoin } = useFavoriteCoinsStore()
+
     if (!coinDetails) {
-        return <EmptyTableRow height={53} />
+        return <EmptyTableRow height={ 53 }/>
+    }
+
+    const handleSetFavoriteCoin = (event: unknown, checked: boolean) => {
+        if (checked) {
+            addFavoriteCoin(coinBasic)
+        } else {
+            removeFavoriteCoin(coinBasic)
+        }
     }
 
     return (
@@ -27,6 +39,12 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
                 component="th"
                 scope="row"
             >
+                <Checkbox
+                    checked={isFavoriteCoin(coinBasic)}
+                    icon={ <FavoriteBorder/> }
+                    checkedIcon={ <Favorite/> }
+                    onChange={ handleSetFavoriteCoin }
+                />
                 { coinDetails.name }
             </TableCell>
             <TableCell>{ coinDetails.current_price }</TableCell>

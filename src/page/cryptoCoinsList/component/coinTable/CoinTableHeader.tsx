@@ -32,6 +32,7 @@ export const CoinTableHeader = (props: Props) => {
                         active={ orderBy === "name" }
                         direction={ orderBy === "name" ? order : 'asc' }
                         onClick={ createSortHandler("name") }
+                        sx={{ marginLeft: '13px' }}
                     >
                         Name
                     </TableSortLabel>
