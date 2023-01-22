@@ -1,110 +1,13 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import { visuallyHidden } from '@mui/utils';
 import { Order } from "./CoinTableSorting";
 import { CoinModel } from "../../../../util/api/fetchCryptoList";
 import { CoinTableBody } from "./CoinTableBody";
-
-interface HeadCell {
-    disablePadding: boolean;
-    id: keyof CoinModel;
-    label: string;
-    numeric: boolean;
-    sortable: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-    {
-        id: 'name',
-        numeric: false,
-        disablePadding: true,
-        label: 'Name',
-        sortable: true,
-    },
-    {
-        id: 'symbol',
-        numeric: true,
-        disablePadding: false,
-        label: 'Price',
-        sortable: false,
-    },
-    {
-        id: 'symbol',
-        numeric: true,
-        disablePadding: false,
-        label: '24h Change',
-        sortable: false,
-    },
-    {
-        id: 'symbol',
-        numeric: true,
-        disablePadding: false,
-        label: '24h Volume (USD)',
-        sortable: false,
-    },
-    {
-        id: 'symbol',
-        numeric: true,
-        disablePadding: false,
-        label: 'Chart',
-        sortable: false,
-    },
-];
-
-interface EnhancedTableProps {
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof CoinModel) => void;
-    order: Order;
-    orderBy: string;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-    const { order, orderBy, onRequestSort } =
-        props;
-    const createSortHandler =
-        (property: keyof CoinModel) => (event: React.MouseEvent<unknown>) => {
-            onRequestSort(event, property);
-        };
-
-    return (
-        <TableHead>
-            <TableRow>
-                { headCells.map((headCell) => (
-                    <TableCell
-                        key={ headCell.id }
-                        align={ headCell.numeric ? 'right' : 'left' }
-                        padding={ headCell.disablePadding ? 'none' : 'normal' }
-                        sortDirection={ orderBy === headCell.id ? order : false }
-                    >
-                        { headCell.sortable && <TableSortLabel
-                            active={ orderBy === headCell.id }
-                            direction={ orderBy === headCell.id ? order : 'asc' }
-                            onClick={ createSortHandler(headCell.id) }
-                        >
-                            { headCell.label }
-                            { orderBy === headCell.id ? (
-                                <Box
-                                    component="span"
-                                    sx={ visuallyHidden }
-                                >
-                                    { order === 'desc' ? 'sorted descending' : 'sorted ascending' }
-                                </Box>
-                            ) : null }
-                        </TableSortLabel> }
-                        { !headCell.sortable && headCell.label }
-                    </TableCell>
-                )) }
-            </TableRow>
-        </TableHead>
-    );
-}
+import { CoinTableHeader } from "./CoinTableHeader";
 
 
 interface CoinTableProps {
@@ -147,7 +50,7 @@ export const CoinTable: React.FC<CoinTableProps> = (props) => {
                         aria-labelledby="tableTitle"
                         size="medium"
                     >
-                        <EnhancedTableHead
+                        <CoinTableHeader
                             order={ order }
                             orderBy={ orderBy }
                             onRequestSort={ handleRequestSort }
