@@ -24,7 +24,7 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
         <>
             <LineChart
                 width={ 300 }
-                height={ 90 }
+                height={ 100 }
                 data={ marketChart24hPrice }
             >
                 <Line
