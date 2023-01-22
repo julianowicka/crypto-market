@@ -3,7 +3,9 @@ import { CoinModel } from "./fetchCryptoList";
 
 export interface CoinModelDetails extends CoinModel {
     price_change_percentage_24h: number,
-    sparkline_in_7d: number[],
+    sparkline_in_7d: {
+        price: number[],
+    },
     low_24h: number,
     high_24h: number,
     current_price: number,

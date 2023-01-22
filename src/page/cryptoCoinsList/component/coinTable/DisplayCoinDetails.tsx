@@ -5,6 +5,7 @@ import { Checkbox, TableCell, TableRow } from "@mui/material";
 import { EmptyTableRow } from "../../../../component/EmptyTableRow";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useFavoriteCoinsStore } from "../../../../util/store/useFavoriteCoinsStore";
+import { Simple24hMarketChart } from "./Simple24hMarketChart";
 
 interface Props {
     coinBasic: CoinModel,
@@ -51,7 +52,9 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
             <TableCell>{ coinDetails.price_change_percentage_24h }</TableCell>
             <TableCell>{ coinDetails.low_24h }</TableCell>
             <TableCell>{ coinDetails.high_24h }</TableCell>
-            <TableCell>Chart</TableCell>
+            <TableCell>
+                <Simple24hMarketChart coin={coinDetails} />
+            </TableCell>
         </TableRow>
     )
 }
