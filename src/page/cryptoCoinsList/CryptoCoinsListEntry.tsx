@@ -1,10 +1,11 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { QueryKeys } from "../../util/api/QueryKeys";
 import { CoinModel, fetchCryptoList } from "../../util/api/fetchCryptoList";
 import { TextField, Typography } from "@mui/material";
 import { CoinTable } from "./component/coinTable/CoinTable";
 import { filterCoins } from "./util/filterCoins";
+import { debounce } from "debounce";
 
 
 export const CryptoCoinsListEntry: React.FC = () => {
@@ -14,11 +15,16 @@ export const CryptoCoinsListEntry: React.FC = () => {
     const [ filteredCoins, setFilteredCoins ] = useState<Array<CoinModel>>([])
 
 
-    const handleSearchCoins: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
+    const handleSearchCoins: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback((event) => {
         const searchString = event.target.value.toLowerCase()
         const newFilteredCoins = filterCoins(allCoins ?? [], searchString)
         setFilteredCoins(newFilteredCoins)
-    }
+    }, [ allCoins, setFilteredCoins ])
+
+    const handleSearchCoinsDebounced = useCallback(
+        debounce(handleSearchCoins, 1000),
+        [ handleSearchCoins ]
+    )
 
 
     return (
@@ -34,9 +40,9 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 id="searchCryptoInput"
                 label="Search Crypto"
                 variant="outlined"
-                onChange={ handleSearchCoins }
+                onChange={ handleSearchCoinsDebounced }
             />
-            <CoinTable filteredCoins={filteredCoins} />
+            <CoinTable filteredCoins={ filteredCoins }/>
         </>
     )
 }

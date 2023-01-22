@@ -16,11 +16,13 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "axios": "^1.2.3",
+    "debounce": "^1.2.1",
     "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.2",
     "react-scripts": "5.0.1",
+    "store": "^2.0.12",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
@@ -47,5 +49,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/debounce": "^1.2.1",
+    "@types/store": "^2.0.2"
   }
 }
