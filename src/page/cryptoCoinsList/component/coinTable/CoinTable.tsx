@@ -65,7 +65,7 @@ export const CoinTable: React.FC<CoinTableProps> = (props) => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={ [ 5, 10, 25 ] }
+                    rowsPerPageOptions={ [ 5 ] }
                     component="div"
                     count={ filteredCoins.length }
                     rowsPerPage={ rowsPerPage }

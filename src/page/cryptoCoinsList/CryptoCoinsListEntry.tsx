@@ -7,7 +7,6 @@ import { CoinTable } from "./component/coinTable/CoinTable";
 import { filterCoins } from "./util/filterCoins";
 import { debounce } from "debounce";
 import { useFavoriteCoinsStore } from "../../util/store/useFavoriteCoinsStore";
-import Box from "@mui/material/Box";
 
 enum DisplayState {
     SEARCH = 'SEARCH',
@@ -60,24 +59,23 @@ export const CryptoCoinsListEntry: React.FC = () => {
 
     return (
         <>
-            <Box sx={ { display: 'flex' } }>
-                <Typography
-                    component="h1"
-                    variant="h3"
-                >
-                    Coin List
-                </Typography>
-                <ToggleButtonGroup
-                    color="primary"
-                    value={ tableDisplayState }
-                    exclusive
-                    onChange={ handleDisplayStateChange }
-                >
-                    <ToggleButton value={ DisplayState.SEARCH }>Search</ToggleButton>
-                    <ToggleButton value={ DisplayState.FAVORITE }>Favorite</ToggleButton>
-                </ToggleButtonGroup>
-            </Box>
-            <br/>
+            <Typography
+                component="h1"
+                variant="h3"
+                sx={{ marginTop: "30px" }}
+            >
+                Coin List
+            </Typography>
+            <br />
+            <ToggleButtonGroup
+                value={ tableDisplayState }
+                exclusive
+                onChange={ handleDisplayStateChange }
+            >
+                <ToggleButton value={ DisplayState.SEARCH }>Search</ToggleButton>
+                <ToggleButton value={ DisplayState.FAVORITE }>Favorite</ToggleButton>
+            </ToggleButtonGroup>
+            <br />
             <TextField
                 id="searchCryptoInput"
                 value={ filterCoinInputValue }

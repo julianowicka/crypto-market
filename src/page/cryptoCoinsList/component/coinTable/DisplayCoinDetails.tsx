@@ -37,7 +37,6 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
             tabIndex={ -1 }
         >
             <TableCell
-                component="th"
                 scope="row"
             >
                 <Checkbox

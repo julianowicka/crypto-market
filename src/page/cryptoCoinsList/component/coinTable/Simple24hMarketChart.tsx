@@ -31,7 +31,7 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
                 <Line
                     type="monotone"
                     dataKey="price"
-                    stroke="#8884d8"
+                    stroke="#18A0FB"
                     strokeWidth={ 2 }
                     dot={ <CustomizedDot/> }
                 />
