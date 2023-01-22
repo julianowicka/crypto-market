@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { QueryKeys } from "../../util/api/QueryKeys";
 import { CoinModel, fetchCryptoList } from "../../util/api/fetchCryptoList";
 import { TextField, Typography } from "@mui/material";
-import CoinTable from "./component/CoinTable";
+import { CoinTable } from "./component/coinTable/CoinTable";
 import { filterCoins } from "./util/filterCoins";
 
 
@@ -39,7 +39,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
             <ul>
                 { filteredCoins.map((coin) => (<li>{ coin.name }</li>)) }
             </ul>
-            <CoinTable />
+            <CoinTable filteredCoins={filteredCoins} />
         </>
     )
 }
