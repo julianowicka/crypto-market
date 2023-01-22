@@ -52,6 +52,7 @@ interface HeadCell {
     id: keyof Data;
     label: string;
     numeric: boolean;
+    sortable: boolean;
 }
 
 const headCells: readonly HeadCell[] = [
@@ -59,31 +60,36 @@ const headCells: readonly HeadCell[] = [
         id: 'name',
         numeric: false,
         disablePadding: true,
-        label: 'Dessert (100g serving)',
+        label: 'Name',
+        sortable: true,
     },
     {
         id: 'calories',
         numeric: true,
         disablePadding: false,
         label: 'Calories',
+        sortable: false,
     },
     {
         id: 'fat',
         numeric: true,
         disablePadding: false,
         label: 'Fat (g)',
+        sortable: false,
     },
     {
         id: 'carbs',
         numeric: true,
         disablePadding: false,
         label: 'Carbs (g)',
+        sortable: false,
     },
     {
         id: 'protein',
         numeric: true,
         disablePadding: false,
         label: 'Protein (g)',
+        sortable: false,
     },
 ];
 
@@ -111,7 +117,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         padding={ headCell.disablePadding ? 'none' : 'normal' }
                         sortDirection={ orderBy === headCell.id ? order : false }
                     >
-                        <TableSortLabel
+                        { headCell.sortable && <TableSortLabel
                             active={ orderBy === headCell.id }
                             direction={ orderBy === headCell.id ? order : 'asc' }
                             onClick={ createSortHandler(headCell.id) }
@@ -125,7 +131,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                                     { order === 'desc' ? 'sorted descending' : 'sorted ascending' }
                                 </Box>
                             ) : null }
-                        </TableSortLabel>
+                        </TableSortLabel> }
+                        { !headCell.sortable && headCell.label }
                     </TableCell>
                 )) }
             </TableRow>
