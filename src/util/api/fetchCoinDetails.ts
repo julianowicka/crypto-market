@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CoinModel } from "./fetchCryptoList";
 
-interface CoinModelDetails extends CoinModel {
+export interface CoinModelDetails extends CoinModel {
     price_change_percentage_24h: number,
     sparkline_in_7d: number[],
     low_24h: number,

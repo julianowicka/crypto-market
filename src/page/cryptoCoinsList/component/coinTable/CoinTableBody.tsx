@@ -1,10 +1,9 @@
 import TableBody from "@mui/material/TableBody";
 import { getComparator, Order } from "./CoinTableSorting";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
 import React from "react";
 import { CoinModel } from "../../../../util/api/fetchCryptoList";
-import { CoinRowsDisplay } from "./CoinRowsDisplay";
+import { CoinRows } from "./CoinRows";
+import { EmptyTableRow } from "../../../../component/EmptyTableRow";
 
 interface Props {
     coins: CoinModel[],
@@ -27,16 +26,8 @@ export const CoinTableBody: React.FC<Props> = (props) => {
 
     return (
         <TableBody>
-            <CoinRowsDisplay coins={coinsDisplayedOnPage} />
-            { emptyRows > 0 && (
-                <TableRow
-                    style={ {
-                        height: (53) * emptyRows,
-                    } }
-                >
-                    <TableCell colSpan={ 6 }/>
-                </TableRow>
-            ) }
+            <CoinRows coins={ coinsDisplayedOnPage }/>
+            { emptyRows > 0 && (<EmptyTableRow height={ 53 * emptyRows }/>) }
         </TableBody>
     )
 }
