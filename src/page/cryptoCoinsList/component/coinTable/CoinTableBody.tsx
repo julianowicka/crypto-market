@@ -3,46 +3,46 @@ import { getComparator, Order } from "./CoinTableSorting";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import React from "react";
-import { Data } from "./Data";
+import { CoinModel } from "../../../../util/api/fetchCryptoList";
 
 interface Props {
-    rows: Data[],
+    coins: CoinModel[],
     order: Order,
-    orderBy: keyof Data,
+    orderBy: keyof CoinModel,
     page: number,
     rowsPerPage: number,
 }
 
 
 export const CoinTableBody: React.FC<Props> = (props) => {
-    const { rows, order, orderBy, rowsPerPage, page } = props
+    const { coins, order, orderBy, rowsPerPage, page } = props
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - coins.length) : 0;
 
     return (
         <TableBody>
-            { rows.sort(getComparator(order, orderBy))
+            { coins.sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((coin) => {
                     return (
                         <TableRow
                             hover
                             tabIndex={ -1 }
-                            key={ row.name }
+                            key={ coin.id }
                         >
                             <TableCell
                                 component="th"
                                 scope="row"
                                 padding="none"
                             >
-                                { row.name }
+                                { coin.name }
                             </TableCell>
-                            <TableCell align="right">{ row.calories }</TableCell>
-                            <TableCell align="right">{ row.fat }</TableCell>
-                            <TableCell align="right">{ row.carbs }</TableCell>
-                            <TableCell align="right">{ row.protein }</TableCell>
+                            <TableCell align="right">34,5$</TableCell>
+                            <TableCell align="right">3,2%</TableCell>
+                            <TableCell align="right">1,332,321 $</TableCell>
+                            <TableCell align="right">Chart</TableCell>
                         </TableRow>
                     );
                 }) }

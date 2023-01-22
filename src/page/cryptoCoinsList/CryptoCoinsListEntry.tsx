@@ -36,9 +36,6 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 variant="outlined"
                 onChange={ handleSearchCoins }
             />
-            <ul>
-                { filteredCoins.map((coin) => (<li>{ coin.name }</li>)) }
-            </ul>
             <CoinTable filteredCoins={filteredCoins} />
         </>
     )

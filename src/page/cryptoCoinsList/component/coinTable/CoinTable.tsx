@@ -11,45 +11,11 @@ import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
 import { Order } from "./CoinTableSorting";
 import { CoinModel } from "../../../../util/api/fetchCryptoList";
-import { Data } from "./Data";
 import { CoinTableBody } from "./CoinTableBody";
-
-
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-): Data {
-    return {
-        name,
-        calories,
-        fat,
-        carbs,
-        protein,
-    };
-}
-
-const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
 
 interface HeadCell {
     disablePadding: boolean;
-    id: keyof Data;
+    id: keyof CoinModel;
     label: string;
     numeric: boolean;
     sortable: boolean;
@@ -64,37 +30,37 @@ const headCells: readonly HeadCell[] = [
         sortable: true,
     },
     {
-        id: 'calories',
+        id: 'symbol',
         numeric: true,
         disablePadding: false,
-        label: 'Calories',
+        label: 'Price',
         sortable: false,
     },
     {
-        id: 'fat',
+        id: 'symbol',
         numeric: true,
         disablePadding: false,
-        label: 'Fat (g)',
+        label: '24h Change',
         sortable: false,
     },
     {
-        id: 'carbs',
+        id: 'symbol',
         numeric: true,
         disablePadding: false,
-        label: 'Carbs (g)',
+        label: '24h Volume (USD)',
         sortable: false,
     },
     {
-        id: 'protein',
+        id: 'symbol',
         numeric: true,
         disablePadding: false,
-        label: 'Protein (g)',
+        label: 'Chart',
         sortable: false,
     },
 ];
 
 interface EnhancedTableProps {
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof CoinModel) => void;
     order: Order;
     orderBy: string;
 }
@@ -103,7 +69,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     const { order, orderBy, onRequestSort } =
         props;
     const createSortHandler =
-        (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+        (property: keyof CoinModel) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
 
@@ -149,13 +115,13 @@ interface CoinTableProps {
 export const CoinTable: React.FC<CoinTableProps> = (props) => {
     const { filteredCoins } = props
     const [ order, setOrder ] = React.useState<Order>('asc');
-    const [ orderBy, setOrderBy ] = React.useState<keyof Data>('calories');
+    const [ orderBy, setOrderBy ] = React.useState<keyof CoinModel>('name');
     const [ page, setPage ] = React.useState(0);
     const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: keyof Data,
+        property: keyof CoinModel,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -187,7 +153,7 @@ export const CoinTable: React.FC<CoinTableProps> = (props) => {
                             onRequestSort={ handleRequestSort }
                         />
                         <CoinTableBody
-                            rows={ rows }
+                            coins={ filteredCoins }
                             order={ order }
                             orderBy={ orderBy }
                             page={ page }
@@ -198,7 +164,7 @@ export const CoinTable: React.FC<CoinTableProps> = (props) => {
                 <TablePagination
                     rowsPerPageOptions={ [ 5, 10, 25 ] }
                     component="div"
-                    count={ rows.length }
+                    count={ filteredCoins.length }
                     rowsPerPage={ rowsPerPage }
                     page={ page }
                     onPageChange={ handleChangePage }
