@@ -23,10 +23,13 @@ export const CryptoCoinsListEntry: React.FC = () => {
     const [ filteredCoins, setFilteredCoins ] = useState<Array<CoinModel>>(favoriteCoins)
     const [ tableDisplayState, setTableDisplayState ] = useState<DisplayState>(DisplayState.FAVORITE)
     const [ filterCoinInputValue, setFilterCoinInputValue ] = useState<string>('')
+    const [ page, setPage ] = useState(0);
+
 
     const handleSearchCoins = useCallback((searchString: string) => {
         const newFilteredCoins = filterCoins(allCoins ?? [], searchString.toLowerCase())
         setFilteredCoins(newFilteredCoins)
+        setPage(0)
     }, [ allCoins, setFilteredCoins ])
 
     const handleSearchCoinsDebounced = useCallback(
@@ -52,6 +55,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
             handleSearchCoins('');
         }
         setFilterCoinInputValue('')
+        setPage(0)
     }
 
     return (
@@ -81,7 +85,11 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 variant="outlined"
                 onChange={ handleSearchCoinsEvent }
             />
-            <CoinTable filteredCoins={ filteredCoins }/>
+            <CoinTable
+                filteredCoins={ filteredCoins }
+                page={ page }
+                setPage={ setPage }
+            />
         </>
     )
 }

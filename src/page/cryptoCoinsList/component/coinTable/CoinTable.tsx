@@ -11,15 +11,15 @@ import { CoinTableHeader } from "./CoinTableHeader";
 
 
 interface CoinTableProps {
-    filteredCoins: Array<CoinModel>
+    filteredCoins: Array<CoinModel>,
+    page: number,
+    setPage: (page: number)=>void,
 }
 
-
 export const CoinTable: React.FC<CoinTableProps> = (props) => {
-    const { filteredCoins } = props
+    const { filteredCoins, page, setPage } = props
     const [ order, setOrder ] = React.useState<Order>('asc');
     const [ orderBy, setOrderBy ] = React.useState<keyof CoinModel>('name');
-    const [ page, setPage ] = React.useState(0);
     const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
     const handleRequestSort = (
