@@ -4,10 +4,11 @@ import Box from "@mui/material/Box";
 
 interface Props {
     children: React.ReactNode,
+    shrink?: boolean
 }
 
 export const TableCellWrapper: React.FC<Props> = (props) => {
-    const { children } = props
+    const { children, shrink } = props
     return (
         <TableCell
             className="rowCells"
@@ -19,7 +20,8 @@ export const TableCellWrapper: React.FC<Props> = (props) => {
                 },
                 "&:last-child .rowCellBody": {
                     borderRadius: "0 10px 10px 0",
-                }
+                },
+                border: 0,
             } }
         >
             <Box
@@ -27,14 +29,13 @@ export const TableCellWrapper: React.FC<Props> = (props) => {
                 sx={ {
                     backgroundColor: "#212246",
                     height: "100px",
-                    padding: "5px 0 5px 0",
+                    padding: "5px 16px 5px 16px",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-
                 } }
             >
-                <Box sx={ { backgroundColor: "#212246" } }>
+                <Box sx={ { backgroundColor: "#212246", display: "flex", alignItems: "center", justifyContent: shrink ? "start" :  "space-between" } }>
                     { children }
                 </Box>
             </Box>

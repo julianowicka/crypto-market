@@ -9,6 +9,7 @@ export interface CoinModelDetails extends CoinModel {
     low_24h: number,
     high_24h: number,
     current_price: number,
+    image: string,
 }
 
 export const fetchCoinDetails = async (coins: CoinModel[]): Promise<CoinModelDetails[]> => {

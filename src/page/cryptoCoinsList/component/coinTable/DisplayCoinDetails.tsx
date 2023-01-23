@@ -1,7 +1,7 @@
 import React from "react";
 import { CoinModel } from "../../../../util/api/fetchCryptoList";
 import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
-import { Checkbox, TableRow } from "@mui/material";
+import { Checkbox, TableRow, Typography } from "@mui/material";
 import { EmptyTableRow } from "../../../../component/EmptyTableRow";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useFavoriteCoinsStore } from "../../../../util/store/useFavoriteCoinsStore";
@@ -32,19 +32,21 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
         }
     }
 
+    console.log("coinDetails");
+    console.log(coinDetails);
+
     return (
         <TableRow
             hover
             tabIndex={ -1 }
         >
-            <TableCellWrapper>
-                <Checkbox
-                    checked={ isFavoriteCoin(coinBasic) }
-                    icon={ <FavoriteBorder/> }
-                    checkedIcon={ <Favorite/> }
-                    onChange={ handleSetFavoriteCoin }
+            <TableCellWrapper shrink>
+                <img
+                    src={ coinDetails.image }
+                    style={ { height: "30px" } }
+                    alt={ `Logo of ${ coinDetails.name } cryptocurrency` }
                 />
-                { coinDetails.name }
+                <Typography sx={ { marginLeft: "10px" } }>{ coinDetails.name }</Typography>
             </TableCellWrapper>
             <TableCellWrapper>{ coinDetails.current_price }</TableCellWrapper>
             <TableCellWrapper>{ coinDetails.price_change_percentage_24h }</TableCellWrapper>
@@ -52,6 +54,13 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
             <TableCellWrapper>{ coinDetails.high_24h }</TableCellWrapper>
             <TableCellWrapper>
                 <Simple24hMarketChart coin={ coinDetails }/>
+                <Checkbox
+                    sx={ { margin: "0 0 0 20px" } }
+                    checked={ isFavoriteCoin(coinBasic) }
+                    icon={ <FavoriteBorder fontSize="large"/> }
+                    checkedIcon={ <Favorite fontSize="large"/> }
+                    onChange={ handleSetFavoriteCoin }
+                />
             </TableCellWrapper>
         </TableRow>
     )

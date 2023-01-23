@@ -1,6 +1,7 @@
 import { Line, LineChart, YAxis } from "recharts";
 import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
 import React from "react";
+import Box from "@mui/material/Box";
 
 const CustomizedDot = () => {
     return <></>
@@ -14,14 +15,14 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
     const { coin } = props
 
     if (coin.sparkline_in_7d.price.length !== 168) {
-        return null
+        return <Box />
     }
 
     const last24hPrice = coin.sparkline_in_7d.price.slice(-24)
     const marketChart24hPrice = last24hPrice.map((price)=> ({ price: price }))
 
     return (
-        <>
+        <Box sx={{ "& div": { background: "#212246" } }}>
             <LineChart
                 width={ 300 }
                 height={ 100 }
@@ -36,6 +37,6 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
                     dot={ <CustomizedDot/> }
                 />
             </LineChart>
-        </>
+        </Box>
     )
 }
