@@ -2,6 +2,7 @@ import { Line, LineChart, YAxis } from "recharts";
 import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
 import React from "react";
 import Box from "@mui/material/Box";
+import { useWindowSize } from "../../../../util/style/useWindowSize";
 
 const CustomizedDot = () => {
     return <></>
@@ -13,6 +14,7 @@ interface Props {
 
 export const Simple24hMarketChart: React.FC<Props> = (props) => {
     const { coin } = props
+    const { isDesktop } = useWindowSize()
 
     if (coin.sparkline_in_7d.price.length !== 168) {
         return <Box />
@@ -24,8 +26,8 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
     return (
         <Box sx={{ "& div": { background: "#212246" } }}>
             <LineChart
-                width={ 300 }
-                height={ 100 }
+                width={ isDesktop ? 250 : 100 }
+                height={ isDesktop ? 100 : 50 }
                 data={ marketChart24hPrice }
             >
                 <YAxis domain={[coin.low_24h, coin.high_24h]} hide />

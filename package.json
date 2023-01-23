@@ -8,6 +8,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.5",
+    "@react-hook/window-size": "^3.1.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -16,6 +17,7 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "axios": "^1.2.3",
+    "currency-formatter": "^1.5.9",
     "debounce": "^1.2.1",
     "express": "^4.18.2",
     "react": "^18.2.0",
@@ -52,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/currency-formatter": "^1.5.1",
     "@types/debounce": "^1.2.1",
     "@types/store": "^2.0.2"
   }

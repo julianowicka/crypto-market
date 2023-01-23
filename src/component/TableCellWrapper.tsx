@@ -9,6 +9,7 @@ interface Props {
 
 export const TableCellWrapper: React.FC<Props> = (props) => {
     const { children, shrink } = props
+
     return (
         <TableCell
             className="rowCells"
@@ -35,7 +36,14 @@ export const TableCellWrapper: React.FC<Props> = (props) => {
                     justifyContent: "center",
                 } }
             >
-                <Box sx={ { backgroundColor: "#212246", display: "flex", alignItems: "center", justifyContent: shrink ? "start" :  "space-between" } }>
+                <Box
+                    sx={ {
+                        backgroundColor: "#212246",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: shrink ? "start" : "space-between",
+                    } }
+                >
                     { children }
                 </Box>
             </Box>
