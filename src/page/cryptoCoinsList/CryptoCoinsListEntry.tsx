@@ -2,11 +2,21 @@ import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { QueryKeys } from "../../util/api/QueryKeys";
 import { CoinModel, fetchCryptoList } from "../../util/api/fetchCryptoList";
-import { TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import {
+    FormControl,
+    Input,
+    InputAdornment,
+    InputLabel,
+    ToggleButton,
+    ToggleButtonGroup,
+    Typography
+} from "@mui/material";
 import { CoinTable } from "./component/coinTable/CoinTable";
 import { filterCoins } from "./util/filterCoins";
 import { debounce } from "debounce";
 import { useFavoriteCoinsStore } from "../../util/store/useFavoriteCoinsStore";
+import SearchIcon from '@mui/icons-material/Search';
+import Box from "@mui/material/Box";
 
 enum DisplayState {
     SEARCH = 'SEARCH',
@@ -31,6 +41,8 @@ export const CryptoCoinsListEntry: React.FC = () => {
         setPage(0)
     }, [ allCoins, setFilteredCoins ])
 
+    // deps array is correct here
+    // eslint-disable-next-line
     const handleSearchCoinsDebounced = useCallback(
         debounce(handleSearchCoins, 1000),
         [ handleSearchCoins ]
@@ -64,7 +76,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 variant="h3"
                 sx={{ marginTop: "30px" }}
             >
-                Coin List
+                Crypto Market
             </Typography>
             <br />
             <ToggleButtonGroup
@@ -76,13 +88,26 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 <ToggleButton value={ DisplayState.FAVORITE }>Favorite</ToggleButton>
             </ToggleButtonGroup>
             <br />
-            <TextField
-                id="searchCryptoInput"
-                value={ filterCoinInputValue }
-                label="Search Crypto"
-                variant="outlined"
-                onChange={ handleSearchCoinsEvent }
-            />
+            <FormControl variant="standard">
+                {filterCoinInputValue === "" ? <InputLabel
+                    variant="outlined"
+                    htmlFor="searchCryptoCoinsInput"
+                >
+                    Search Crypto
+                </InputLabel> : <Box sx={{ height: "16px" }} /> }
+                <Input
+                    id="searchCryptoCoinsInput"
+                    size="medium"
+                    value={ filterCoinInputValue }
+                    onChange={ handleSearchCoinsEvent }
+                    startAdornment={
+                        <InputAdornment position="start">
+                            <SearchIcon fontSize="large" />
+                        </InputAdornment>
+                    }
+                />
+            </FormControl>
+            <br />
             <CoinTable
                 filteredCoins={ filteredCoins }
                 page={ page }

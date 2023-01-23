@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Container } from "@mui/material";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ErrorModal } from "../component/ErrorModal";
-import { CryptoWalletThemeProvider } from "../util/style/CryptoWalletThemeProvider";
+import { CryptoMarketThemeProvider } from "../util/style/CryptoMarketThemeProvider";
 import "./global.css"
 
 const queryClient = new QueryClient({
@@ -21,7 +21,7 @@ const queryClient = new QueryClient({
 
 export const App = () => {
     return (
-        <CryptoWalletThemeProvider>
+        <CryptoMarketThemeProvider>
             <QueryClientProvider client={ queryClient }>
                 <Container sx={ { display: 'flex', flexDirection: 'column' } }>
                     <CryptoCoinsListEntry/>
@@ -29,7 +29,7 @@ export const App = () => {
                 <ErrorModal/>
                 <ReactQueryDevtools initialIsOpen={ false }/>
             </QueryClientProvider>
-        </CryptoWalletThemeProvider>
+        </CryptoMarketThemeProvider>
     );
 }
 
