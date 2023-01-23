@@ -106,27 +106,6 @@ const theme = createTheme({
                 }
             }
         },
-        MuiTableRow: {
-            styleOverrides: {
-                root: {
-                    borderRadius: "10px",
-                    margin: "10px 0 10px 0",
-                    padding: "10px 0 10px 0",
-                    background: "#212246",
-                    "& td:first-child": {
-                        padding: "10px",
-                        borderTopLeftRadius: "10px",
-                        borderBottomLeftRadius: "10px",
-                    },
-                    "& td": {
-                        background: "#212246",
-                    },
-                    "& div": {
-                        background: "#212246",
-                    }
-                }
-            }
-        }
     },
     typography: {
         fontFamily: 'Poppins'

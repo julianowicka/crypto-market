@@ -1,11 +1,12 @@
 import React from "react";
 import { CoinModel } from "../../../../util/api/fetchCryptoList";
 import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
-import { Checkbox, TableCell, TableRow } from "@mui/material";
+import { Checkbox, TableRow } from "@mui/material";
 import { EmptyTableRow } from "../../../../component/EmptyTableRow";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useFavoriteCoinsStore } from "../../../../util/store/useFavoriteCoinsStore";
 import { Simple24hMarketChart } from "./Simple24hMarketChart";
+import { TableCellWrapper } from "../../../../component/TableCellWrapper";
 
 interface Props {
     coinBasic: CoinModel,
@@ -36,24 +37,22 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
             hover
             tabIndex={ -1 }
         >
-            <TableCell
-                scope="row"
-            >
+            <TableCellWrapper>
                 <Checkbox
-                    checked={isFavoriteCoin(coinBasic)}
+                    checked={ isFavoriteCoin(coinBasic) }
                     icon={ <FavoriteBorder/> }
                     checkedIcon={ <Favorite/> }
                     onChange={ handleSetFavoriteCoin }
                 />
                 { coinDetails.name }
-            </TableCell>
-            <TableCell>{ coinDetails.current_price }</TableCell>
-            <TableCell>{ coinDetails.price_change_percentage_24h }</TableCell>
-            <TableCell>{ coinDetails.low_24h }</TableCell>
-            <TableCell>{ coinDetails.high_24h }</TableCell>
-            <TableCell>
-                <Simple24hMarketChart coin={coinDetails} />
-            </TableCell>
+            </TableCellWrapper>
+            <TableCellWrapper>{ coinDetails.current_price }</TableCellWrapper>
+            <TableCellWrapper>{ coinDetails.price_change_percentage_24h }</TableCellWrapper>
+            <TableCellWrapper>{ coinDetails.low_24h }</TableCellWrapper>
+            <TableCellWrapper>{ coinDetails.high_24h }</TableCellWrapper>
+            <TableCellWrapper>
+                <Simple24hMarketChart coin={ coinDetails }/>
+            </TableCellWrapper>
         </TableRow>
     )
 }
