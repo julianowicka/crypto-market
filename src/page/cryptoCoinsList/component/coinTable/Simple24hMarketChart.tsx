@@ -26,7 +26,7 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
     return (
         <Box sx={{ "& div": { background: "#212246" } }}>
             <LineChart
-                width={ isDesktop ? 250 : 100 }
+                width={ isDesktop ? 300 : 100 }
                 height={ isDesktop ? 100 : 50 }
                 data={ marketChart24hPrice }
             >
