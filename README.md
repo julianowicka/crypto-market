@@ -2,7 +2,7 @@
 
 ## Live demo
 
-https://ulam-labs-julia-nowicka.herokuapp.com/
+https://crypto-market-preview.herokuapp.com/
 
 ##  Scripts
 
