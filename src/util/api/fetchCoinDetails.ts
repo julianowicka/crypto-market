@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "./client";
 import { CoinModel } from "./fetchCryptoList";
 
 export interface CoinModelDetails extends CoinModel {
@@ -13,9 +13,20 @@ export interface CoinModelDetails extends CoinModel {
 }
 
 export const fetchCoinDetails = async (coins: CoinModel[]): Promise<CoinModelDetails[]> => {
-    const cryptoIdList = coins.map((coin) => coin.id)
-    const ids = cryptoIdList.join("%2C")
-    const cryptoDetailsResponse = await axios.get<CoinModelDetails[]>(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=24h`)
+    const ids = coins.map((coin) => coin.id).join(',')
+    const cryptoDetailsResponse = await api.get<CoinModelDetails[]>(
+        '/coins/markets',
+        {
+            params: {
+                vs_currency: 'usd',
+                ids,
+                order: 'market_cap_desc',
+                per_page: 100,
+                page: 1,
+                sparkline: true,
+                price_change_percentage: '24h',
+            },
+        }
+    )
     return cryptoDetailsResponse.data;
 }
