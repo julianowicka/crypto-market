@@ -10,6 +10,15 @@
 
 # production
 /build
+/dist
+
+# caches
+.vite
+.eslintcache
+
+# playwright outputs
+/playwright-report
+/test-results
 
 # misc
 .DS_Store
