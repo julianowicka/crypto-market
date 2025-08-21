@@ -2,6 +2,7 @@
   "name": "ulam-labs",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -9,31 +10,54 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.5",
     "@react-hook/window-size": "^3.1.1",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.11",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
+    "@tanstack/query-sync-storage-persister": "^5.85.5",
+    "@tanstack/react-query": "^5.56.2",
+    "@tanstack/react-query-devtools": "^5.56.2",
+    "@tanstack/react-query-persist-client": "^5.85.5",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "axios": "^1.2.3",
     "currency-formatter": "^1.5.9",
     "debounce": "^1.2.1",
     "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-query": "^3.39.2",
-    "react-scripts": "5.0.1",
     "recharts": "^2.3.2",
-    "store": "^2.0.12",
-    "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@playwright/test": "^1.47.2",
+    "@types/currency-formatter": "^1.5.1",
+    "@types/debounce": "^1.2.1",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react-swc": "^3.7.0",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "jsdom": "^24.1.0",
+    "msw": "^2.4.11",
+    "prettier": "^3.3.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.4.2",
+    "vite-plugin-pwa": "^0.20.5",
+    "vitest": "^2.0.5"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest watch",
+    "lint": "eslint --ext .ts,.tsx src",
+    "format": "prettier --write .",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed"
   },
   "eslintConfig": {
     "extends": [
@@ -52,10 +76,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/currency-formatter": "^1.5.1",
-    "@types/debounce": "^1.2.1",
-    "@types/store": "^2.0.2"
   }
 }
