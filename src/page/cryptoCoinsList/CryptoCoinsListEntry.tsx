@@ -87,6 +87,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 value={ tableDisplayState }
                 exclusive
                 onChange={ handleDisplayStateChange }
+                aria-label="Select table view"
             >
                 <ToggleButton value={ DisplayState.SEARCH }>Search</ToggleButton>
                 <ToggleButton value={ DisplayState.FAVORITE }>Favorite</ToggleButton>
@@ -112,6 +113,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
                             <SearchIcon fontSize="large" />
                         </InputAdornment>
                     }
+                    inputProps={{ 'aria-label': 'Search cryptocurrencies' }}
                 />
             </FormControl>
             <br />
