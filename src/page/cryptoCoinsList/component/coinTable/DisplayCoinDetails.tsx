@@ -12,6 +12,7 @@ import { DisplayPercent } from "../../../../component/DisplayPercent";
 import { useWindowSize } from "../../../../util/style/useWindowSize";
 import { DisplayPriceAndPercentChange } from "./DisplayPriceAndPercentChange";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 
 interface Props {
     coinBasic: CoinModel,
@@ -23,13 +24,16 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
 
     const coinDetails = coinDetailsList?.find((coin) => coinBasic.id === coin.id)
 
-    const { removeFavoriteCoin, addFavoriteCoin, isFavoriteCoin } = useFavoriteCoinsStore()
+    const { removeFavoriteCoin, addFavoriteCoin, isFavoriteCoin, favoriteCoins } = useFavoriteCoinsStore()
 
     const { isDesktop, isMobile, isSuperSmall } = useWindowSize()
 
     if (!coinDetails) {
         return <EmptyTableRow height={ 53 }/>
     }
+
+    const isFavorite = isFavoriteCoin(coinBasic)
+    const isAtLimit = favoriteCoins.length >= 5 && !isFavorite
 
     const handleSetFavoriteCoin = (event: unknown, checked: boolean) => {
         if (checked) {
@@ -64,13 +68,18 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
                         percentChange={ coinDetails.price_change_percentage_24h }
                     />
                     {!isSuperSmall && <Simple24hMarketChart coin={ coinDetails }/> }
-                    <Checkbox
-                        sx={ { margin: "0 0 0 1px" } }
-                        checked={ isFavoriteCoin(coinBasic) }
-                        icon={ <FavoriteBorder fontSize="medium"/> }
-                        checkedIcon={ <Favorite fontSize="medium"/> }
-                        onChange={ handleSetFavoriteCoin }
-                    />
+                    <Tooltip title={ isAtLimit ? "You cannot add more than five favorite coins" : "" } disableHoverListener={ !isAtLimit }>
+                        <span>
+                            <Checkbox
+                                sx={ { margin: "0 0 0 1px" } }
+                                checked={ isFavorite }
+                                icon={ <FavoriteBorder fontSize="medium"/> }
+                                checkedIcon={ <Favorite fontSize="medium"/> }
+                                onChange={ handleSetFavoriteCoin }
+                                disabled={ isAtLimit }
+                            />
+                        </span>
+                    </Tooltip>
                 </TableCellWrapper>
             </TableRow>
         )
@@ -112,13 +121,18 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
                 <Simple24hMarketChart coin={ coinDetails }/>
             </TableCellWrapper>
             <TableCellWrapper>
-                <Checkbox
-                    sx={ { margin: "0 0 0 20px" } }
-                    checked={ isFavoriteCoin(coinBasic) }
-                    icon={ <FavoriteBorder fontSize="large"/> }
-                    checkedIcon={ <Favorite fontSize="large"/> }
-                    onChange={ handleSetFavoriteCoin }
-                />
+                <Tooltip title={ isAtLimit ? "You cannot add more than five favorite coins" : "" } disableHoverListener={ !isAtLimit }>
+                    <span>
+                        <Checkbox
+                            sx={ { margin: "0 0 0 20px" } }
+                            checked={ isFavorite }
+                            icon={ <FavoriteBorder fontSize="large"/> }
+                            checkedIcon={ <Favorite fontSize="large"/> }
+                            onChange={ handleSetFavoriteCoin }
+                            disabled={ isAtLimit }
+                        />
+                    </span>
+                </Tooltip>
             </TableCellWrapper>
         </TableRow>
     )
