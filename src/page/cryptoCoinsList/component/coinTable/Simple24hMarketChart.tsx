@@ -3,6 +3,8 @@ import { CoinModelDetails } from "../../../../util/api/fetchCoinDetails";
 import React from "react";
 import Box from "@mui/material/Box";
 import { useWindowSize } from "../../../../util/style/useWindowSize";
+import { useFavoriteCoinsStore } from "../../../../util/store/useFavoriteCoinsStore";
+import { getFavoriteColor } from "../../../../util/style/favoriteColors";
 
 const CustomizedDot = () => {
     return <></>
@@ -15,6 +17,7 @@ interface Props {
 export const Simple24hMarketChart: React.FC<Props> = (props) => {
     const { coin } = props
     const { isDesktop } = useWindowSize()
+    const { favoriteCoins } = useFavoriteCoinsStore()
 
     if (coin.sparkline_in_7d.price.length !== 168) {
         return <Box />
@@ -22,6 +25,8 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
 
     const last24hPrice = coin.sparkline_in_7d.price.slice(-24)
     const marketChart24hPrice = last24hPrice.map((price)=> ({ price: price }))
+
+    const stroke = getFavoriteColor(coin.id, favoriteCoins)
 
     return (
         <Box sx={{ "& div": { background: "#212246" } }}>
@@ -34,7 +39,7 @@ export const Simple24hMarketChart: React.FC<Props> = (props) => {
                 <Line
                     type="monotone"
                     dataKey="price"
-                    stroke="#18A0FB"
+                    stroke={stroke}
                     strokeWidth={ 2 }
                     dot={ <CustomizedDot/> }
                 />
