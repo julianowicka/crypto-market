@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "../api/QueryKeys";
 
 interface NotificationModel {
@@ -12,20 +12,24 @@ const INITIAL_NOTIFICATION_STATE: NotificationModel = {
 }
 
 export const useNotificationStore = () => {
-    const { data } = useQuery(QueryKeys.GET_NOTIFICATIONS, () => INITIAL_NOTIFICATION_STATE)
+    const { data } = useQuery({
+        queryKey: [QueryKeys.GET_NOTIFICATIONS],
+        queryFn: () => INITIAL_NOTIFICATION_STATE,
+        initialData: INITIAL_NOTIFICATION_STATE,
+    })
     const notificationState = data ?? INITIAL_NOTIFICATION_STATE
 
     const queryClient = useQueryClient()
 
     const openErrorMessage = (errorMessage: string) => {
-        queryClient.setQueryData(QueryKeys.GET_NOTIFICATIONS, {
+        queryClient.setQueryData([QueryKeys.GET_NOTIFICATIONS], {
             isError: true,
             errorMessage,
         })
     }
 
     const closeErrorMessage = () => {
-        queryClient.setQueryData(QueryKeys.GET_NOTIFICATIONS, INITIAL_NOTIFICATION_STATE)
+        queryClient.setQueryData([QueryKeys.GET_NOTIFICATIONS], INITIAL_NOTIFICATION_STATE)
     }
 
     return {

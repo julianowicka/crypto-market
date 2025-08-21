@@ -1,8 +1,8 @@
 import { CoinModel } from "../api/fetchCryptoList";
-import store from "store";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "../api/QueryKeys";
 import { useNotificationStore } from "./useNotificationStore";
+import { getJSON, setJSON } from "../storage";
 
 const FAVORITE_COINS_KEY = 'favoriteCoinsListKey'
 
@@ -13,15 +13,15 @@ const DEFAULT_COINS: CoinModel[] = [
 ]
 
 const getFavoriteCoinsFromLocalStorage = (): CoinModel[] => {
-    return store.get(FAVORITE_COINS_KEY);
-}
-
-if (!getFavoriteCoinsFromLocalStorage()) {
-    store.set(FAVORITE_COINS_KEY, DEFAULT_COINS)
+    return getJSON<CoinModel[]>(FAVORITE_COINS_KEY, DEFAULT_COINS);
 }
 
 export const useFavoriteCoinsStore = () => {
-    const { data } = useQuery(QueryKeys.GET_FAVORITE_COINS, getFavoriteCoinsFromLocalStorage);
+    const { data } = useQuery({
+        queryKey: [QueryKeys.GET_FAVORITE_COINS],
+        queryFn: getFavoriteCoinsFromLocalStorage,
+        initialData: getFavoriteCoinsFromLocalStorage(),
+    });
     const favoriteCoins = data ?? getFavoriteCoinsFromLocalStorage()
     const { openErrorMessage } = useNotificationStore()
 
@@ -29,8 +29,8 @@ export const useFavoriteCoinsStore = () => {
 
     const setFavoriteCoins = (coinList: CoinModel[]): void => {
         const newCoinList = [ ...coinList ];
-        store.set(FAVORITE_COINS_KEY, newCoinList)
-        queryClient.setQueryData(QueryKeys.GET_FAVORITE_COINS, newCoinList)
+        setJSON(FAVORITE_COINS_KEY, newCoinList)
+        queryClient.setQueryData([QueryKeys.GET_FAVORITE_COINS], newCoinList)
     }
 
     const addFavoriteCoin = (coin: CoinModel): void => {
@@ -43,12 +43,12 @@ export const useFavoriteCoinsStore = () => {
     }
 
     const removeFavoriteCoin = (coin: CoinModel): void => {
-        const newFavoriteCoins = favoriteCoins.filter((favoriteCoin) => favoriteCoin.id !== coin.id)
+        const newFavoriteCoins = favoriteCoins.filter((favoriteCoin: CoinModel) => favoriteCoin.id !== coin.id)
         setFavoriteCoins(newFavoriteCoins)
     }
 
     const isFavoriteCoin = (coin: CoinModel): boolean => {
-        return favoriteCoins.some((favoriteCoin) => favoriteCoin.id === coin.id)
+        return favoriteCoins.some((favoriteCoin: CoinModel) => favoriteCoin.id === coin.id)
     }
 
     return {

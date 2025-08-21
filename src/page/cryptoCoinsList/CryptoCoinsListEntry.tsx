@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, useCallback, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "../../util/api/QueryKeys";
 import { CoinModel, fetchCryptoList } from "../../util/api/fetchCryptoList";
 import {
@@ -17,6 +17,7 @@ import { debounce } from "debounce";
 import { useFavoriteCoinsStore } from "../../util/store/useFavoriteCoinsStore";
 import SearchIcon from '@mui/icons-material/Search';
 import Box from "@mui/material/Box";
+import { CombinedFavoritesChart } from "./component/coinTable/CombinedFavoritesChart";
 
 enum DisplayState {
     SEARCH = 'SEARCH',
@@ -25,7 +26,10 @@ enum DisplayState {
 
 export const CryptoCoinsListEntry: React.FC = () => {
 
-    const { data: allCoins } = useQuery(QueryKeys.GET_ALL_CRYPTO, fetchCryptoList)
+    const { data: allCoins } = useQuery({
+        queryKey: [QueryKeys.GET_ALL_CRYPTO],
+        queryFn: fetchCryptoList,
+    })
 
     const { favoriteCoins } = useFavoriteCoinsStore()
 
@@ -88,6 +92,9 @@ export const CryptoCoinsListEntry: React.FC = () => {
                 <ToggleButton value={ DisplayState.FAVORITE }>Favorite</ToggleButton>
             </ToggleButtonGroup>
             <br />
+            {tableDisplayState === DisplayState.FAVORITE && favoriteCoins.length > 0 && (
+                <CombinedFavoritesChart />
+            )}
             <FormControl variant="standard">
                 {filterCoinInputValue === "" ? <InputLabel
                     variant="outlined"
