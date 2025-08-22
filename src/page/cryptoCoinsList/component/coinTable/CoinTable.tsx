@@ -47,6 +47,7 @@ export const CoinTable: React.FC<CoinTableProps> = (props) => {
                 <TableContainer>
                     <Table
                         size="medium"
+                        aria-label="Cryptocurrency list"
                     >
                         <CoinTableHeader
                             order={ order }
@@ -70,6 +71,21 @@ export const CoinTable: React.FC<CoinTableProps> = (props) => {
                     page={ page }
                     onPageChange={ handleChangePage }
                     onRowsPerPageChange={ handleChangeRowsPerPage }
+                    labelRowsPerPage="Rows per page"
+                    getItemAriaLabel={(type) => {
+                        switch (type) {
+                            case 'first':
+                                return 'Go to first page';
+                            case 'last':
+                                return 'Go to last page';
+                            case 'next':
+                                return 'Go to next page';
+                            case 'previous':
+                                return 'Go to previous page';
+                            default:
+                                return 'Pagination control';
+                        }
+                    }}
                 />
             </Paper>
         </Box>

@@ -30,7 +30,7 @@ export const ErrorModal: React.FC = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={ style }>
+                <Box sx={ style } role="alertdialog" aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                     <Typography
                         id="modal-modal-title"
                         variant="h6"
@@ -41,6 +41,7 @@ export const ErrorModal: React.FC = () => {
                     <Typography
                         id="modal-modal-description"
                         sx={ { mt: 2 } }
+                        aria-live="assertive"
                     >
                         { notificationState.errorMessage }
                     </Typography>
