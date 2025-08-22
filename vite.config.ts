@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
 import { VitePWA } from 'vite-plugin-pwa'
 
@@ -23,6 +23,19 @@ export default defineConfig({
       }
     })
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://api.coingecko.com/api/v3',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        configure: (proxy) => {
+          proxy.on('error', (err) => console.error('Proxy error', err))
+        },
+      },
+    },
+  },
   build: {
     rollupOptions: {
       output: {
@@ -41,5 +54,6 @@ export default defineConfig({
     globals: true,
     setupFiles: './src/setupTests.ts',
     css: true,
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**'],
   },
 })
