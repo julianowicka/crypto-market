@@ -77,6 +77,7 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
                                 checkedIcon={ <Favorite fontSize="medium"/> }
                                 onChange={ handleSetFavoriteCoin }
                                 disabled={ isAtLimit }
+                                inputProps={{ 'aria-label': `Toggle favorite ${ coinDetails.name }` }}
                             />
                         </span>
                     </Tooltip>
@@ -130,6 +131,7 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
                             checkedIcon={ <Favorite fontSize="large"/> }
                             onChange={ handleSetFavoriteCoin }
                             disabled={ isAtLimit }
+                            inputProps={{ 'aria-label': `Toggle favorite ${ coinDetails.name }` }}
                         />
                     </span>
                 </Tooltip>

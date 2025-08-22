@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "../../../../util/api/QueryKeys";
 import { fetchCoinDetails } from "../../../../util/api/fetchCoinDetails";
 import { Line, LineChart, Tooltip, YAxis, XAxis, ResponsiveContainer, Legend } from "recharts";
-import { getFavoriteColor } from "/src/util/style/favoriteColors";
+import { getFavoriteColor } from "../../../../util/style/favoriteColors";
 import Box from "@mui/material/Box";
 
 export const CombinedFavoritesChart: React.FC = () => {
