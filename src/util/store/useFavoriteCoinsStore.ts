@@ -21,30 +21,40 @@ export const useFavoriteCoinsStore = () => {
         queryKey: [QueryKeys.GET_FAVORITE_COINS],
         queryFn: getFavoriteCoinsFromLocalStorage,
         initialData: getFavoriteCoinsFromLocalStorage(),
+        staleTime: Infinity,
+        gcTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
     });
-    const favoriteCoins = data ?? getFavoriteCoinsFromLocalStorage()
-    const { openErrorMessage } = useNotificationStore()
 
     const queryClient = useQueryClient()
+    const { openErrorMessage } = useNotificationStore()
 
-    const setFavoriteCoins = (coinList: CoinModel[]): void => {
-        const newCoinList = [ ...coinList ];
-        setJSON(FAVORITE_COINS_KEY, newCoinList)
-        queryClient.setQueryData([QueryKeys.GET_FAVORITE_COINS], newCoinList)
+    const favoriteCoins = data ?? getFavoriteCoinsFromLocalStorage()
+
+    const setFavoriteCoins = (updater: (prev: CoinModel[]) => CoinModel[]) => {
+        const prev = (queryClient.getQueryData([QueryKeys.GET_FAVORITE_COINS]) as CoinModel[] | undefined) ?? getFavoriteCoinsFromLocalStorage()
+        const next = updater(prev)
+        if (next !== prev) {
+            setJSON(FAVORITE_COINS_KEY, next)
+            queryClient.setQueryData([QueryKeys.GET_FAVORITE_COINS], next)
+        }
     }
 
     const addFavoriteCoin = (coin: CoinModel): void => {
-        if (favoriteCoins.length === 5) {
-            openErrorMessage("You cannot add more then five favorite coins, please unlike one of your coins")
-            return
-        }
-        favoriteCoins.push(coin)
-        setFavoriteCoins(favoriteCoins)
+        setFavoriteCoins((prev) => {
+            if (prev.some((c) => c.id === coin.id)) return prev
+            if (prev.length >= 5) {
+                openErrorMessage("You cannot add more than five favorite coins, please unlike one of your coins")
+                return prev
+            }
+            return [...prev, coin]
+        })
     }
 
     const removeFavoriteCoin = (coin: CoinModel): void => {
-        const newFavoriteCoins = favoriteCoins.filter((favoriteCoin: CoinModel) => favoriteCoin.id !== coin.id)
-        setFavoriteCoins(newFavoriteCoins)
+        setFavoriteCoins((prev) => prev.filter((favoriteCoin) => favoriteCoin.id !== coin.id))
     }
 
     const isFavoriteCoin = (coin: CoinModel): boolean => {

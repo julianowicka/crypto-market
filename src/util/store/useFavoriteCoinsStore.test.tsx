@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useFavoriteCoinsStore } from './useFavoriteCoinsStore'
 import { ErrorModal } from '../../component/ErrorModal'
@@ -35,13 +35,13 @@ it('prevents adding more than five favorites and shows an error', async () => {
   expect(screen.getByTestId('count').textContent).toBe('3')
 
   fireEvent.click(screen.getByText('add-ada'))
-  expect(screen.getByTestId('count').textContent).toBe('4')
+  await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('4'))
 
   fireEvent.click(screen.getByText('add-ltc'))
-  expect(screen.getByTestId('count').textContent).toBe('5')
+  await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('5'))
 
   // Sixth should not increase count and should open error modal
   fireEvent.click(screen.getByText('add-doge'))
-  expect(screen.getByTestId('count').textContent).toBe('5')
+  await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('5'))
   expect(await screen.findByText(/you cannot add more than five favorite coins/i)).toBeInTheDocument()
 })
