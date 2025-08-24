@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "../../util/api/QueryKeys";
 import { CoinModel, fetchCryptoList } from "../../util/api/fetchCryptoList";
@@ -73,6 +73,22 @@ export const CryptoCoinsListEntry: React.FC = () => {
         setPage(0)
     }
 
+    // When allCoins load after user typed, immediately re-apply current search (without debounce)
+    useEffect(() => {
+        if (tableDisplayState === DisplayState.SEARCH) {
+            handleSearchCoins(filterCoinInputValue)
+        } else {
+            setFilteredCoins(favoriteCoins)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [allCoins])
+
+    useEffect(() => {
+        if (tableDisplayState === DisplayState.FAVORITE) {
+            setFilteredCoins(favoriteCoins)
+        }
+    }, [favoriteCoins, tableDisplayState])
+
     return (
         <>
             <Typography
@@ -118,7 +134,7 @@ export const CryptoCoinsListEntry: React.FC = () => {
             </FormControl>
             <br />
             <CoinTable
-                filteredCoins={ filteredCoins }
+                filteredCoins={ tableDisplayState === DisplayState.FAVORITE ? favoriteCoins : filteredCoins }
                 page={ page }
                 setPage={ setPage }
             />
