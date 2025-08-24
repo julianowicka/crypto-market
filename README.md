@@ -25,6 +25,43 @@ https://crypto-market-preview.herokuapp.com/
 In the project directory, you can run:
 
 ### `npm start`
+### `npm run dev`
+Runs the app in development mode.
+
+### `npm run build`
+Builds the app for production.
+
+### `npm run preview`
+Serves the production build locally.
+
+### `npm run test`
+Runs unit tests with Vitest.
+
+### `npm run e2e`
+Runs end-to-end tests with Playwright (Chromium and Firefox).
+
+### `npm run e2e:webkit`
+Runs end-to-end tests with WebKit (Safari engine) in addition to Chromium and Firefox.
+
+### `npm run e2e:headed`
+Runs end-to-end tests with visible browser windows.
+
+### `npm run e2e:webkit:headed`
+Runs end-to-end tests with WebKit in visible mode.
+
+## WebKit Setup
+
+To run tests with WebKit (Safari engine), you need to install system dependencies:
+
+```bash
+# Install WebKit browser
+npx playwright install webkit
+
+# Install system dependencies (requires sudo)
+sudo env PATH="/./bin:$PATH" npx playwright install-deps webkit
+```
+
+Note: If you encounter issues with system dependencies, WebKit tests may still work without them, but some features might be limited.
 
 # Task
 
