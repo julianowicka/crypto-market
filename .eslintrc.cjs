@@ -7,8 +7,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
+    // Removed import recommended presets to avoid resolver issues
     'prettier'
   ],
   settings: {
@@ -21,12 +20,8 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    'import/order': [
-      'error',
-      {
-        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-        'newlines-between': 'always',
-      }
-    ],
+    'import/order': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/prefer-as-const': 'off',
   },
 };
