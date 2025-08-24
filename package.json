@@ -62,6 +62,11 @@
     "e2e:headed": "playwright test --headed",
     "e2e:webkit": "RUN_WEBKIT=1 playwright test",
     "e2e:webkit:headed": "RUN_WEBKIT=1 playwright test --headed",
+    "e2e:webkit-only": "RUN_WEBKIT=1 playwright test --project=webkit",
+    "e2e:chromium": "playwright test --project=chromium",
+    "e2e:firefox": "playwright test --project=firefox",
+    "e2e:install": "playwright install",
+    "e2e:install-deps": "playwright install-deps",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }
