@@ -33,11 +33,12 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.7.0",
-    "eslint": "^9.9.1",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
     "jsdom": "^24.1.0",
     "msw": "^2.4.11",
     "prettier": "^3.3.3",
@@ -59,6 +60,8 @@
     "format": "prettier --write .",
     "e2e": "playwright test",
     "e2e:headed": "playwright test --headed",
+    "e2e:webkit": "RUN_WEBKIT=1 playwright test",
+    "e2e:webkit:headed": "RUN_WEBKIT=1 playwright test --headed",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }
