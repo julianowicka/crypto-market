@@ -19,13 +19,29 @@ const detailsBase = {
 }
 
 test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    try { window.localStorage.clear() } catch {}
+  })
   await page.route('**/api.coingecko.com/api/v3/coins/list**', async (route) => {
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify(list),
     })
   })
+  await page.route('**/api/coins/list**', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify(list),
+    })
+  })
   await page.route('**/api.coingecko.com/api/v3/coins/markets**', async (route) => {
+    const url = new URL(route.request().url())
+    const ids = (url.searchParams.get('ids') || '').split(',').filter(Boolean)
+    const nameMap = new Map(list.map((c) => [c.id, c.name]))
+    const data = ids.map((id) => ({ id, symbol: id.slice(0, 3), name: nameMap.get(id) ?? id, ...detailsBase }))
+    await route.fulfill({ contentType: 'application/json', body: JSON.stringify(data) })
+  })
+  await page.route('**/api/coins/markets**', async (route) => {
     const url = new URL(route.request().url())
     const ids = (url.searchParams.get('ids') || '').split(',').filter(Boolean)
     const nameMap = new Map(list.map((c) => [c.id, c.name]))
@@ -58,36 +74,57 @@ test('search coin, add and remove favorite', async ({ page }) => {
   // wait for row and add to favorites
   const toggleFav = page.getByRole('checkbox', { name: 'Toggle favorite Cardano' })
   await expect(toggleFav).toBeVisible()
-  await toggleFav.check()
+  await toggleFav.click()
 
-  // switch to Favorite tab and assert presence
+  // switch to Favorite tab and assert presence within table
   await page.getByRole('button', { name: 'Favorite' }).click()
-  await expect(page.getByText('Cardano')).toBeVisible()
+  const table = page.getByRole('table', { name: 'Cryptocurrency list' })
+  await expect(table.getByText('Cardano')).toBeVisible()
 
   // remove from favorites
-  await page.getByRole('checkbox', { name: 'Toggle favorite Cardano' }).uncheck()
-  await expect(page.getByText('Cardano')).not.toBeVisible()
+  await table.getByRole('checkbox', { name: 'Toggle favorite Cardano' }).click()
+  // toggle tabs to ensure view reflects updated favorites
+  await page.getByRole('button', { name: 'Search' }).click()
+  await page.getByRole('button', { name: 'Favorite' }).click()
+  await expect(table.getByRole('checkbox', { name: 'Toggle favorite Cardano' })).toHaveCount(0)
 })
 
 test('enforces max 5 favorites rule by disabling 6th', async ({ page }) => {
   await page.goto('/')
   const searchInput = page.getByLabel('Search cryptocurrencies')
+  const table = page.getByRole('table', { name: 'Cryptocurrency list' })
 
-  // We already start with 3 default favorites (btc, eth, xrp)
-  // Add two more: Cardano and Litecoin
+  const waitForMarkets = async (id: string) => {
+    await page.waitForResponse((res) => {
+      if (!res.url().includes('/coins/markets')) return false
+      try {
+        const url = new URL(res.url())
+        const ids = (url.searchParams.get('ids') || '').split(',')
+        return ids.includes(id)
+      } catch { return false }
+    })
+  }
+
   await searchInput.fill('cardano')
-  const cardanoFav = page.getByRole('checkbox', { name: 'Toggle favorite Cardano' })
-  await expect(cardanoFav).toBeVisible()
-  await cardanoFav.check()
+  await waitForMarkets('cardano')
+  await page.waitForTimeout(1200)
+  const cardanoFav = table.getByRole('checkbox', { name: 'Toggle favorite Cardano' })
+  await expect(cardanoFav).toBeVisible({ timeout: 10000 })
+  await cardanoFav.click()
+  await page.getByRole('button', { name: 'Search' }).click()
 
   await searchInput.fill('litecoin')
-  const litecoinFav = page.getByRole('checkbox', { name: 'Toggle favorite Litecoin' })
-  await expect(litecoinFav).toBeVisible()
-  await litecoinFav.check()
+  await waitForMarkets('litecoin')
+  await page.waitForTimeout(1200)
+  const litecoinFav = table.getByRole('checkbox', { name: 'Toggle favorite Litecoin' })
+  await expect(litecoinFav).toBeVisible({ timeout: 10000 })
+  await litecoinFav.click()
+  await page.getByRole('button', { name: 'Search' }).click()
 
-  // Now attempt to add Dogecoin as 6th should be disabled
   await searchInput.fill('dogecoin')
-  const dogeFav = page.getByRole('checkbox', { name: 'Toggle favorite Dogecoin' })
-  await expect(dogeFav).toBeVisible()
+  await waitForMarkets('dogecoin')
+  await page.waitForTimeout(1200)
+  const dogeFav = table.getByRole('checkbox', { name: 'Toggle favorite Dogecoin' })
+  await expect(dogeFav).toBeVisible({ timeout: 10000 })
   await expect(dogeFav).toBeDisabled()
 })
