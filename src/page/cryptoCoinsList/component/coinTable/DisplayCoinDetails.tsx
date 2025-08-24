@@ -35,7 +35,8 @@ export const DisplayCoinDetails: React.FC<Props> = (props) => {
     const isFavorite = isFavoriteCoin(coinBasic)
     const isAtLimit = favoriteCoins.length >= 5 && !isFavorite
 
-    const handleSetFavoriteCoin = (event: unknown, checked: boolean) => {
+    const handleSetFavoriteCoin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const checked = event.target.checked
         if (checked) {
             addFavoriteCoin(coinBasic)
         } else {
