@@ -17,7 +17,7 @@ export const CoinRows: React.FC<Props> = (props) => {
     const { openErrorMessage } = useNotificationStore()
 
     const coinIds = coins.map((coin) => coin.id).sort().join(",")
-    const { data: coinDetailsList, isLoading, isError, error } = useQuery({
+    const { data: coinDetailsList, isError, error } = useQuery({
         queryKey: [ QueryKeys.GET_CRYPTO_DETAILS, coinIds ],
         queryFn: ({ signal }) => fetchCoinDetails(coins, signal),
         refetchInterval: 30_000,
