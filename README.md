@@ -14,7 +14,7 @@ Uwaga na limity API: CoinGecko nakłada ograniczenia (możliwe HTTP 429 przy int
 W aplikacji zaimplementowano anulowanie zapytań, retry z backoffem oraz chunkowanie.
 Szczegóły znajdziesz w sekcji poniżej.
 
-# Ulam Labs
+
 
 ## Live demo
 
@@ -110,5 +110,6 @@ What is important in this task? And where do we give points?
   - Server env: `COINGECKO_DEMO_API_KEY` and/or `COINGECKO_PRO_API_KEY`.
   - If provided, the app will include them in request headers to increase limits per CoinGecko plan.
 
+Note: This project was originally built as a recruitment assignment. I decided to improve and extend it further on my own.
 
 
