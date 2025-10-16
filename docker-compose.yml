@@ -1,17 +1,25 @@
 version: '3.8'
 
 services:
-  cryptomarket:
+  crypto-market-frontend:
     build: .
-    container_name: cryptomarket-app
+    container_name: crypto-market-frontend
     restart: unless-stopped
-    ports:
-      - "3001:3000"  # Map port 3001 on host to 3000 in container
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - VIRTUAL_HOST=cryptomarket.julianowicka.dev
+      - LETSENCRYPT_HOST=cryptomarket.julianowicka.dev
+      - LETSENCRYPT_EMAIL=admin@julianowicka.dev
     networks:
-      - cryptomarket-network
+      - global-proxy
+    labels:
+      - "com.docker.compose.project=crypto-market"
+      - "traefik.enable=true"
+      - "traefik.http.routers.crypto-market.rule=Host(`cryptomarket.julianowicka.dev`)"
+      - "traefik.http.routers.crypto-market.tls=true"
+      - "traefik.http.routers.crypto-market.tls.certresolver=letsencrypt"
+      - "traefik.http.services.crypto-market.loadbalancer.server.port=3000"
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
@@ -29,7 +37,5 @@ services:
           cpus: '0.25'
 
 networks:
-  cryptomarket-network:
-    driver: bridge
-    # Isolated network for crypto-market
-    name: cryptomarket-network
+  global-proxy:
+    external: true
